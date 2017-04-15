@@ -50,41 +50,59 @@ install.batch("fs", "wait", "util").then(async function([fs, wait, util]) {
   // `await install("module")` is basically an async `require("module")` from CommonJS
   var util = await install("util");
 
-  // var enumResults = function(obj) {
-  //   console.log(`RESPONSE ITEM \n`);
-  //   for (var z of obj) {
-  //     if (typeof z === 'object') {
-  //       console.log('object');
-  //       return enumResults(z);
-  //     }
-  //   }
-  // }
+var enumResults = function(data) {
+  for (var i of data) {
+    console.log(`URL RESPONSE \n`);
+    for (var obj of i) {
+      util.log(obj);
+    }
+  }
+};
 
-// async function getURLsAsync() {
+var asynchronizer = async function (urls) {
   try {
-    var data = await Promise.all([
+    var data = await Promise.all(
       /* Alternatively store each in an array */
     // var [x, y, z] = await Promise.all([
-      fetch('https://jsonplaceholder.typicode.com/posts').then((response) => response.json()),
-      fetch('https://jsonplaceholder.typicode.com/albums').then((response) => response.json()),
-      fetch('https://jsonplaceholder.typicode.com/users').then((response) => response.json())
-    ]);
+      // fetch('https://jsonplaceholder.typicode.com/posts').then((response) => {
+      //   console.log('fetch 1 complete');
+      //   return response.json()
+      // }),
+      // fetch('https://jsonplaceholder.typicode.com/albums').then((response) => {
+      //   console.log('fetch 2 complete');
+      //   return response.json()
+      // }),
+      // fetch('https://jsonplaceholder.typicode.com/users').then((response) => {
+      //   console.log('fetch 3 complete');        
+      //   return response.json()
+      // })
 
-    for (var i of data) {
-      console.log(`RESPONSE ITEM \n`);
-      // console.log(typeof i);
-      for (var obj of i) {
-        // console.log(obj);
-        util.log(obj);
-        enumResults(obj);
-      }
-    }
+      //could add cases to handle different types of fetch responses: 
+      // .arrayBuffer()
+      // .blob()
+      // .formData()
+      // .json()
+      // .text()      
+      urls.map((url) => {
+        return fetch(url).then((response) => response.json());
+      })
+    );
+
+    enumResults(data);
 
   } catch (error) {
     console.log(error);
   }
-// };
 
-// getURLsAsync();
+};
+
+var urlsArray = [
+  'https://jsonplaceholder.typicode.com/posts',
+  'https://jsonplaceholder.typicode.com/albums',
+  'https://jsonplaceholder.typicode.com/users',
+  'https://jsonplaceholder.typicode.com/todos'
+  ]
+
+asynchronizer(urlsArray);
 
 });  
