@@ -51,8 +51,9 @@ install.batch("fs", "wait", "util").then(async function([fs, wait, util]) {
   var util = await install("util");
 
 var enumResults = function(data) {
+  let counter = 1;
   for (var i of data) {
-    console.log(`URL RESPONSE \n`);
+    console.log(`URL ${counter++} RESPONSE`);
     for (var obj of i) {
       util.log(obj);
     }
@@ -61,9 +62,10 @@ var enumResults = function(data) {
 
 var asynchronizer = async function (urls) {
   try {
+      /* Alternatively store each value in an array for processing */
+    // var [x, y, z] = await Promise.all([    
     var data = await Promise.all(
-      /* Alternatively store each in an array */
-    // var [x, y, z] = await Promise.all([
+      //equivalent to urls.map()
       // fetch('https://jsonplaceholder.typicode.com/posts').then((response) => {
       //   console.log('fetch 1 complete');
       //   return response.json()
@@ -76,8 +78,8 @@ var asynchronizer = async function (urls) {
       //   console.log('fetch 3 complete');        
       //   return response.json()
       // })
-
-      //could add cases to handle different types of fetch responses: 
+      //fetch() makes several different stream readers available to process
+      //different data type responses: 
       // .arrayBuffer()
       // .blob()
       // .formData()

@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/seajsws/async-await-demo#readme",
   "devDependencies": {
+    //async and bluebird are useful for working with asynchronous
+    //actions and promises, and can be used in conjunction with request
+    //http://stackoverflow.com/questions/31761648/async-parallel-http-request
     "async": "^2.3.0",
     "bluebird": "^3.5.0",
     "request": "^2.81.0"
